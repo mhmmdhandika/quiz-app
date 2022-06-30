@@ -12,15 +12,10 @@ function Quiz({ quizData, setIsDone, setUserAnswer }) {
         icon: 'warning',
       });
     } else {
-      console.log(tempAnswer);
       setUserAnswer(tempAnswer);
       setIsDone(true);
     }
   };
-
-  // TODO:
-  // 1. check the tempAnswer
-  // 2. create a result
 
   return (
     <section className='w-fit m-auto relative sm:max-w-[500px] lg:max-w-[600px] xl:max-w-[650px]'>

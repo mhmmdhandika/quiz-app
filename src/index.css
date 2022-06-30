@@ -8,6 +8,9 @@
   h1 {
     @apply text-4xl font-semibold text-slate-800;
   }
+  .section-center {
+    @apply absolute top-2/4 left-1/2 -translate-x-2/4 -translate-y-1/2 text-center min-w-[300px] max-w-[400px];
+  }
 }
 
 @layer components {
