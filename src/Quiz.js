@@ -1,22 +1,6 @@
-import { useState, useEffect, useCallback } from 'react';
 import swal from 'sweetalert';
 
-function Quiz() {
-  const url = 'https://the-trivia-api.com/api/questions?categories=general_knowledge&limit=10&region=ID&difficulty=medium';
-
-  const [data, setData] = useState([]);
-
-  const quizData = useCallback(async () => {
-    const response = await fetch(url);
-    const questions = await response.json();
-    setData(questions);
-  }, [url]);
-
-  useEffect(() => {
-    console.log('rendered');
-    quizData();
-  }, [url, quizData]);
-
+function Quiz({ quizData, setIsDone, setUserAnswer }) {
   let tempAnswer = [];
 
   const handleSubmit = () => {
@@ -24,22 +8,30 @@ function Quiz() {
       const tempAnswerFiltered = tempAnswer.filter(answer => answer.userAnswer !== null);
       swal({
         title: 'Answer all the quiz, please!',
-        text: `You've just answered ${tempAnswerFiltered.length}/${data.length}`,
+        text: `You've just answered ${tempAnswerFiltered.length}/${quizData.length}`,
         icon: 'warning',
       });
+    } else {
+      console.log(tempAnswer);
+      setUserAnswer(tempAnswer);
+      setIsDone(true);
     }
   };
 
+  // TODO:
+  // 1. check the tempAnswer
+  // 2. create a result
+
   return (
     <section className='w-fit m-auto relative sm:max-w-[500px] lg:max-w-[600px] xl:max-w-[650px]'>
-      {data.map((quiz, index) => {
+      {quizData.map((quiz, index) => {
         const { id, question, correctAnswer, incorrectAnswers } = quiz;
         tempAnswer.push({ id, userAnswer: null });
         let answerArr = [correctAnswer].concat(incorrectAnswers);
         let shuffledAnswer = answerArr.sort(() => Math.random() - 0.5);
         return (
           <div className='card' key={index}>
-            <h4>{`No. ${index + 1}/${data.length}`}</h4>
+            <h4>{`No. ${index + 1}/${quizData.length}`}</h4>
             <h2>{question}</h2>
             <form>
               {shuffledAnswer.map((eachAnswer, indexAnswer) => {
